@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Invite - Georgia Hoffmann 24 anos </title>
+<meta name="description" content="Convite: aniversário de 24 anos de Georgia Hoffmann. 10.10 às 19h no Meio Cheio.">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="app">
+  <header class="win-bar">
+    <span class="prompt">georgia@24:~$ ./convite --run<span class="blink">█</span></span>
+    <a id="cal" class="btn cal" target="_blank" rel="noopener"
+       href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Aniversario+Georgia&dates=20261010T190000/20261010T230000&ctz=America/Sao_Paulo&location=Meio+Cheio">[+] ADICIONAR NA AGENDA</a>
+  </header>
+
+  <canvas id="stage" aria-label="Cubo 3D com a foto"></canvas>
+
+  <main class="info" aria-label="Informações do convite">
+    <div class="head">
+      <p class="line l1"><span id="t1">GEORGIA HOFFMANN</span></p>
+      <p class="line l2"><span id="t3">MEU</span><span id="t2">ANIVERSARIO</span></p>
+    </div>
+    <div class="foot">
+      <p class="line l3">24 ANOS</p>
+      <p class="line l5"><a href="https://www.instagram.com/meiocheio__/" target="_blank" rel="noopener">NO MEIO CHEIO!!</a></p>
+      <p class="line l4">10.10 ÀS 19H</p>
+    </div>
+  </main>
+
+  <nav class="dock" aria-label="Personalização">
+    <label class="ctl" title="Cor de fundo">
+      <span>COR DE FUNDO</span><input type="color" id="bg" value="#0a0a0a">
+    </label>
+    <label class="ctl" title="Cor da fonte">
+      <span>COR DO TEXTO</span><input type="color" id="fg" value="#33ff00">
+    </label>
+    <label class="ctl upload" title="Enviar sua foto">
+      <span id="upLabel">[↑] BRINQUE AQUI</span>
+      <input type="file" id="file" accept="image/*" hidden>
+    </label>
+  </nav>
+  <div class="scan" aria-hidden="true"></div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
