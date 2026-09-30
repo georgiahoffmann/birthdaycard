@@ -153,13 +153,35 @@ file.addEventListener("click", (e) => e.stopPropagation());
 // ---- cores
 const root = document.documentElement;
 const bg = document.getElementById("bg"), fg = document.getElementById("fg");
-function applyColors() {
-  root.style.setProperty("--bg", bg.value);
-  root.style.setProperty("--fg", fg.value);
+const MOSS = "#4a7a26"; // hover padrão (verde musgo) enquanto as cores originais estão ativas
+function bestOnColor(hex) { // preto ou branco, o que tiver mais contraste
+  return contrast(hex, "#000000") >= contrast(hex, "#ffffff") ? "#000000" : "#ffffff";
 }
-bg.addEventListener("input", applyColors);
-fg.addEventListener("input", applyColors);
-applyColors();
+function darken(hex, keep) { // mistura com preto, mantendo `keep` da cor original
+  return "#" + [1, 3, 5].map((i) => Math.round(parseInt(hex.slice(i, i + 2), 16) * keep).toString(16).padStart(2, "0")).join("");
+}
+function applyColors(customized) {
+  const set = (k, v) => root.style.setProperty(k, v);
+  set("--bg", bg.value);
+  set("--fg", fg.value);
+  set("--fill", fg.value);
+  if (customized) {
+    // cores do usuário: preenchimento = cor do texto; texto do botão = cor de fundo;
+    // texto do link = cor de fundo; hover = versão escurecida do preenchimento
+    const hover = darken(fg.value, 0.55);
+    set("--on-fill-btn", bg.value);
+    set("--on-fill", bg.value);
+    set("--fill-hover", hover);
+    set("--on-fill-hover", bestOnColor(hover));
+  } else {
+    set("--on-fill", bg.value);
+    set("--fill-hover", MOSS);
+    set("--on-fill-hover", bestOnColor(MOSS));
+  }
+}
+bg.addEventListener("input", () => applyColors(true));
+fg.addEventListener("input", () => applyColors(true));
+applyColors(false);
 
 // ---- tracking do título: o último N de HOFFMANN alinha com o fim de ANIVERSARIO
 const t1 = document.getElementById("t1"), t2 = document.getElementById("t2");
@@ -229,5 +251,5 @@ function randomPair() {
 
 document.getElementById("shuffle").addEventListener("click", () => {
   [bg.value, fg.value] = randomPair();
-  applyColors();
+  applyColors(true);
 });

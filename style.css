@@ -34,15 +34,17 @@ body {
 .l3 { grid-column:1; grid-row:1; font-size:clamp(20px,4.4vw,70px); }
 .l5 { grid-column:2; grid-row:1; font-size:clamp(16px,2.4vw,36px); pointer-events:auto; }
 .l4 { grid-column:2; grid-row:2; font-size:clamp(22px,5vw,80px); }
-.l5 a { color:var(--fg); text-decoration:underline; text-underline-offset:4px; }
-.l5 a:hover { background:var(--fg); color:var(--bg); text-shadow:none; }
+/* link e botão principal: preenchidos; cores definidas em app.js (--fill, --on-fill, --fill-hover, --on-fill-hover) */
+.l5 a { background:var(--fill); color:var(--on-fill); text-shadow:none; text-decoration:underline; text-underline-offset:4px; padding:0 .12em; }
+.l5 a:hover { background:var(--fill-hover); color:var(--on-fill-hover); }
 
 .btn, .ctl {
   border:1px solid var(--fg); background:var(--bg); color:var(--fg);
   font:inherit; font-size:12px; letter-spacing:.06em; text-decoration:none; cursor:pointer;
 }
 .btn:hover, .ctl:hover { background:var(--fg); color:var(--bg); text-shadow:none; }
-.cal { padding:6px 10px; white-space:nowrap; }
+.cal { padding:6px 10px; white-space:nowrap; background:var(--fill); color:var(--on-fill-btn, var(--on-fill)); text-shadow:none; }
+.cal:hover { background:var(--fill-hover); color:var(--on-fill-hover); }
 
 .dock {
   position:absolute; z-index:5; left:50%; bottom:calc(16px + env(safe-area-inset-bottom));
