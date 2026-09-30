@@ -75,3 +75,6 @@ body {
   .dock { width:calc(100% - 24px); justify-content:space-between; }
   .ctl { padding:6px 8px; }
 }
+
+/* input de arquivo invisível mas presente (mais confiável no iOS/Android que [hidden]) */
+.file-input { position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; pointer-events:none; }

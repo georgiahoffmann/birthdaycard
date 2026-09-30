@@ -100,9 +100,10 @@ function getDetector() {
 
 // devolve o quadrado da cabeça (cabelo + queixo) dentro da imagem original
 async function headBox(img) {
-  const W = img.naturalWidth, H = img.naturalHeight;
+  const W = img.width, H = img.height;
   try {
-    const det = await getDetector();
+    // no celular o modelo pode demorar a baixar: não trava o upload, cai no recorte central
+    const det = await Promise.race([getDetector(), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 4000))]);
     const faces = det.detect(img).detections;
     if (faces.length) {
       const b = faces.map((f) => f.boundingBox).sort((a, c) => c.width * c.height - a.width * a.height)[0];
@@ -130,25 +131,57 @@ base.src = "assets/georgia.jpg";
 // ---- upload
 const file = document.getElementById("file");
 const label = document.getElementById("upLabel");
-file.addEventListener("change", () => {
+const LABEL = label.textContent;
+const MAX_SIDE = 1280; // fotos de celular têm 12MP+: reduz antes de processar
+
+// decodifica respeitando a orientação EXIF e já reduz (rápido e leve em memória no mobile)
+async function loadScaled(f) {
+  let src, w, h;
+  if (window.createImageBitmap) {
+    try {
+      src = await createImageBitmap(f, { imageOrientation: "from-image" });
+      w = src.width; h = src.height;
+    } catch { src = null; }
+  }
+  if (!src) {
+    const url = URL.createObjectURL(f);
+    try {
+      src = await new Promise((res, rej) => {
+        const i = new Image();
+        i.onload = () => res(i);
+        i.onerror = rej;
+        i.src = url;
+      });
+      w = src.naturalWidth; h = src.naturalHeight;
+    } finally { URL.revokeObjectURL(url); }
+  }
+  const k = Math.min(1, MAX_SIDE / Math.max(w, h));
+  const c = document.createElement("canvas");
+  c.width = Math.round(w * k);
+  c.height = Math.round(h * k);
+  c.getContext("2d").drawImage(src, 0, 0, c.width, c.height);
+  src.close?.();
+  return c;
+}
+
+file.addEventListener("change", async () => {
   const f = file.files?.[0];
   if (!f) return;
   label.textContent = "[…] PROCESSANDO";
-  const reader = new FileReader();
-  reader.onload = () => {
-    const img = new Image();
-    img.onload = async () => {
-      setFaces(img, await headBox(img));
-      label.textContent = "[↑] BRINQUE AQUI";
-    };
-    img.onerror = () => { label.textContent = "[!] ARQUIVO INVÁLIDO"; };
-    img.src = reader.result;
-  };
-  reader.readAsDataURL(f);
-  file.value = "";
+  try {
+    const canvas = await loadScaled(f);
+    setFaces(canvas, await headBox(canvas));
+    label.textContent = LABEL;
+  } catch (err) {
+    console.error(err);
+    label.textContent = "[!] NÃO FOI POSSÍVEL LER";
+    setTimeout(() => { label.textContent = LABEL; }, 2500);
+  } finally {
+    file.value = ""; // só depois de ler o arquivo (no mobile limpar antes invalida o File)
+  }
 });
-document.querySelector(".upload").addEventListener("click", () => file.click());
-file.addEventListener("click", (e) => e.stopPropagation());
+// aquece o detector de rosto em segundo plano para o upload ser instantâneo
+(window.requestIdleCallback || setTimeout)(() => getDetector().catch(() => {}), 1500);
 
 // ---- cores
 const root = document.documentElement;
