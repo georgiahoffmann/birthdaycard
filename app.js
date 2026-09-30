@@ -181,7 +181,7 @@ file.addEventListener("change", async () => {
   }
 });
 // aquece o detector de rosto em segundo plano para o upload ser instantâneo
-(window.requestIdleCallback || setTimeout)(() => getDetector().catch(() => {}), 1500);
+setTimeout(() => getDetector().catch(() => {}), 1500);
 
 // ---- cores
 const root = document.documentElement;
