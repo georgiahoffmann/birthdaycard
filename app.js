@@ -218,7 +218,13 @@ applyColors(false);
 
 // ---- tracking do título: o último N de HOFFMANN alinha com o fim de ANIVERSARIO
 const t1 = document.getElementById("t1"), t2 = document.getElementById("t2");
+const mobile = matchMedia("(max-width:640px)");
 function fitTitle() {
+  if (mobile.matches) { // no mobile o título não é alinhado por tracking/margem
+    t1.style.letterSpacing = "";
+    t3.style.marginLeft = "";
+    return;
+  }
   t1.style.letterSpacing = "0px";
   const r1 = t1.getBoundingClientRect(), r2 = t2.getBoundingClientRect();
   const ls2 = parseFloat(getComputedStyle(t2).letterSpacing) || 0; // espaço após a última letra

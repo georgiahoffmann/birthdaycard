@@ -65,15 +65,23 @@ body {
 }
 
 @media (max-width:640px) {
-  .l1 { font-size:9vw; }
-  .l2 { font-size:8.5vw; }
+  .l1, .l3, .l4 { font-size:8.4vw; }
+  .foot { bottom:calc(104px + env(safe-area-inset-bottom)); }
+  /* MEU ANIVERSARIO junto, alinhado à esquerda, separado só pelo espaço do texto */
+  .l2 { font-size:18px; justify-content:flex-start; gap:.3em; }
+  .l5 { font-size:18px; }
   .foot { grid-template-columns:1fr; }
   .l3, .l4, .l5 { grid-column:1; }
-  .l3 { grid-row:1; font-size:8vw; }
-  .l5 { grid-row:2; font-size:5vw; }
-  .l4 { grid-row:3; font-size:9vw; }
-  .dock { width:calc(100% - 24px); justify-content:space-between; }
-  .ctl { padding:6px 8px; }
+  .l3 { grid-row:1; }
+  .l5 { grid-row:2; }
+  .l4 { grid-row:3; }
+  .dock { width:calc(100% - 24px); justify-content:space-between; flex-wrap:wrap; gap:6px; padding:6px; }
+  .ctl { padding:2px 8px; font-size:12px; font-weight:500; white-space:nowrap; gap:6px; }
+  .ctl.upload { flex:1 1 100%; justify-content:center; }
+  .ctl.icon { padding:2px 8px; }
+  .ctl.icon svg { width:14px; height:14px; }
+  .ctl input[type=color] { width:18px; height:18px; }
+  .ctl.icon.cal { border-color:var(--fill); }
 }
 
 /* input de arquivo invisível mas presente (mais confiável no iOS/Android que [hidden]) */
