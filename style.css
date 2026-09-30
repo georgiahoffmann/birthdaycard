@@ -51,6 +51,8 @@ body {
   backdrop-filter:blur(6px);
 }
 .ctl { display:flex; align-items:center; gap:8px; padding:6px 10px; }
+.ctl.icon { justify-content:center; padding:6px 8px; }
+.ctl svg { display:block; }
 .ctl input[type=color] { width:28px; height:28px; padding:0; border:1px solid var(--fg); background:none; cursor:pointer; }
 .ctl input[type=color]::-webkit-color-swatch-wrapper { padding:0; }
 .ctl input[type=color]::-webkit-color-swatch { border:0; }
