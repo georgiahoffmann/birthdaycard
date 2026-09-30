@@ -75,12 +75,12 @@ body {
   .l3 { grid-row:1; }
   .l5 { grid-row:2; }
   .l4 { grid-row:3; }
-  .dock { width:calc(100% - 24px); justify-content:space-between; flex-wrap:wrap; gap:6px; padding:6px; }
-  .ctl { padding:2px 8px; font-size:12px; font-weight:500; white-space:nowrap; gap:6px; }
+  .dock { width:calc(100% - 24px); justify-content:space-between; flex-wrap:wrap; gap:4px; padding:4px; }
+  .ctl { padding:2px 6px; font-size:14px; font-weight:500; white-space:nowrap; gap:4px; letter-spacing:0; }
   .ctl.upload { flex:1 1 100%; justify-content:center; }
-  .ctl.icon { padding:2px 8px; }
+  .ctl.icon { padding:4px 6px; align-self:stretch; }
   .ctl.icon svg { width:14px; height:14px; }
-  .ctl input[type=color] { width:18px; height:18px; }
+  .ctl input[type=color] { width:20px; height:20px; }
   .ctl.icon.cal { border-color:var(--fill); }
 }
 
